@@ -13,7 +13,7 @@
     "Bluetooth",
     "Printer"
   ],
-  "author": "janus j k lu",
+  "author": "Renan Georgio",
   "license": "MIT",
   "peerDependencies": {
     "react-native": ">=0.55.4"
