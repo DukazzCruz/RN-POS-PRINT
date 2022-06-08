@@ -22,7 +22,7 @@
     "Printer"
   ],
   "author": "Renan Georgio",
-  "license": "ISC",
+  "license": "MIT",
   "peerDependencies": {
     "react-native": ">=0.55.4"
   }
