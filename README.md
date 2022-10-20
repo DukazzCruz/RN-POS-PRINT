@@ -8,7 +8,7 @@ Any questions or bug please raise a issue.
 
 #May support Android /IOS
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/januslo/react-native-bluetooth-escpos-printer/master/LICENSE) [![npm version](https://badge.fury.io/js/react-native-bluetooth-escpos-printer.svg)](https://www.npmjs.com/package/react-native-bluetooth-escpos-printer)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/dukazzcruz/RN-POS-PRINT/master/LICENSE) [![npm version](https://badge.fury.io/js/@dukazzcruz%2Frn-pos-print.svg)](https://www.npmjs.com/package/@dukazzcruz/rn-pos-print)
 
 ## Installation
 ### Step 1 ###
