@@ -1,6 +1,7 @@
 package cn.jystudio.bluetooth;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -10,8 +11,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-// import android.support.v4.app.ActivityCompat;
-// import android.support.v4.content.ContextCompat;
+// import androidx.core.app.ActivityCompat;
+// import androidx.core.content.ContextCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import android.util.Log;
@@ -66,6 +67,8 @@ public class RNBluetoothManagerModule extends ReactContextBaseJavaModule
     private static final String PROMISE_ENABLE_BT = "ENABLE_BT";
     private static final String PROMISE_SCAN = "SCAN";
     private static final String PROMISE_CONNECT = "CONNECT";
+    private static final String PROMISE_DISCONNECT = "DISCONNECT";
+
 
     private JSONArray pairedDeivce = new JSONArray();
     private JSONArray foundDevice = new JSONArray();
@@ -139,6 +142,7 @@ public class RNBluetoothManagerModule extends ReactContextBaseJavaModule
                     JSONObject obj = new JSONObject();
                     obj.put("name", d.getName());
                     obj.put("address", d.getAddress());
+                    obj.put("devicetype", d.getBluetoothClass().getMajorDeviceClass());
                     pairedDeivce.pushString(obj.toString());
                 } catch (Exception e) {
                     //ignore.
@@ -181,6 +185,13 @@ public class RNBluetoothManagerModule extends ReactContextBaseJavaModule
                         new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
                         1);
             }
+            permissionChecked = ContextCompat.checkSelfPermission(reactContext, Manifest.permission.ACCESS_FINE_LOCATION);
+            if (permissionChecked == PackageManager.PERMISSION_DENIED) {
+                // TODO: 2018/9/21
+                ActivityCompat.requestPermissions(reactContext.getCurrentActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        1);
+            }
 
 
             pairedDeivce = new JSONArray();
@@ -191,6 +202,7 @@ public class RNBluetoothManagerModule extends ReactContextBaseJavaModule
                     JSONObject obj = new JSONObject();
                     obj.put("name", d.getName());
                     obj.put("address", d.getAddress());
+                    obj.put("devicetype", d.getBluetoothClass().getMajorDeviceClass());
                     pairedDeivce.put(obj);
                 } catch (Exception e) {
                     //ignore.
@@ -227,6 +239,7 @@ public class RNBluetoothManagerModule extends ReactContextBaseJavaModule
         BluetoothAdapter adapter = this.getBluetoothAdapter();
         if (adapter!=null && adapter.isEnabled()) {
             BluetoothDevice device = adapter.getRemoteDevice(address);
+            promiseMap.put(PROMISE_DISCONNECT, promise);
             this.unpairDevice(device);
             promise.resolve(address);
         } else {
@@ -292,6 +305,7 @@ public class RNBluetoothManagerModule extends ReactContextBaseJavaModule
                                 JSONObject obj = new JSONObject();
                                 obj.put("name", d.getName());
                                 obj.put("address", d.getAddress());
+                                obj.put("devicetype", d.getBluetoothClass().getMajorDeviceClass());
                                 pairedDeivce.pushString(obj.toString());
                             } catch (Exception e) {
                                 //ignore.
@@ -359,6 +373,8 @@ public class RNBluetoothManagerModule extends ReactContextBaseJavaModule
                     try {
                         deviceFound.put("name", device.getName());
                         deviceFound.put("address", device.getAddress());
+                        deviceFound.put("devicetype", device.getBluetoothClass().getMajorDeviceClass());
+
                     } catch (Exception e) {
                         //ignore
                     }
