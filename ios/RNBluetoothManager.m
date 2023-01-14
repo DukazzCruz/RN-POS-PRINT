@@ -149,7 +149,7 @@ RCT_EXPORT_METHOD(scanDevices:(RCTPromiseResolveBlock)resolve
             }
             [self.foundDevices addEntriesFromDictionary:peripheralStored];
             if(hasListenerx){
-                [self sendEventName:EVENT_DEVICE_FOUND body:@{@"device":idAndName}];
+                [self sendEventWithName:EVENT_DEVICE_FOUND body:@{@"device":idAndName}];
             }
         }
         [self.centralManager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@NO}];
@@ -233,7 +233,7 @@ RCT_EXPORT_METHOD(connect:(NSString *)address
         NSData* jsonData = [NSJSONSerialization dataWithJSONObject:devices options:NSJSONWritingPrettyPrinted error:&error];
         NSString * jsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         if(hasListenerx){
-            [self sendEventName:EVENT_DEVICE_DISCOVER_DONE body:@{@"found":jsonStr,@"paired":@"[]"}];
+            [self sendEventWithName:EVENT_DEVICE_DISCOVER_DONE body:@{@"found":jsonStr,@"paired":@"[]"}];
         }
         if(self.scanResolveBlock){
             RCTPromiseResolveBlock rsBlock = self.scanResolveBlock;
@@ -296,7 +296,7 @@ RCT_EXPORT_METHOD(connect:(NSString *)address
     }
     [self.foundDevices addEntriesFromDictionary:peripheralStored];
     if(hasListenerx){
-        [self sendEventName:EVENT_DEVICE_FOUND body:@{@"device":idAndName}];
+        [self sendEventWithName:EVENT_DEVICE_FOUND body:@{@"device":idAndName}];
     }
     if(_waitingConnect && [_waitingConnect isEqualToString: peripheral.identifier.UUIDString]){
         [self.centralManager connectPeripheral:peripheral options:nil];
@@ -319,7 +319,7 @@ RCT_EXPORT_METHOD(connect:(NSString *)address
     }
        NSLog(@"going to emit EVENT_CONNECTED.");
     if(hasListenerx){
-        [self sendEventName:EVENT_CONNECTED body:@{@"device":@{@"name":peripheral.name?peripheral.name:@"",@"address":peripheral.identifier.UUIDString}}];
+        [self sendEventWithName:EVENT_CONNECTED body:@{@"device":@{@"name":peripheral.name?peripheral.name:@"",@"address":peripheral.identifier.UUIDString}}];
     }
 }
 
@@ -334,12 +334,12 @@ RCT_EXPORT_METHOD(connect:(NSString *)address
         }
         connected = nil;
         if(hasListenerx){
-            [self sendEventName:EVENT_UNABLE_CONNECT body:@{@"name":peripheral.name?peripheral.name:@"",@"address":peripheral.identifier.UUIDString}];
+            [self sendEventWithName:EVENT_UNABLE_CONNECT body:@{@"name":peripheral.name?peripheral.name:@"",@"address":peripheral.identifier.UUIDString}];
         }
     }else{
         connected = nil;
         if(hasListenerx){
-            [self sendEventName:EVENT_CONNECTION_LOST body:nil];
+            [self sendEventWithName:EVENT_CONNECTION_LOST body:nil];
         }
     }
 }
@@ -354,7 +354,7 @@ RCT_EXPORT_METHOD(connect:(NSString *)address
     }
     connected = nil;
     if(hasListenerx){
-        [self sendEventName:EVENT_UNABLE_CONNECT body:@{@"name":peripheral.name?peripheral.name:@"",@"address":peripheral.identifier.UUIDString}];
+        [self sendEventWithName:EVENT_UNABLE_CONNECT body:@{@"name":peripheral.name?peripheral.name:@"",@"address":peripheral.identifier.UUIDString}];
     }
     }
 
