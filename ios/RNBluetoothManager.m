@@ -62,7 +62,7 @@ static NSTimer *timer;
  **/
 - (NSDictionary *)constantsToExport
 {
-    
+
     /*
      EVENT_DEVICE_ALREADY_PAIRED    Emits the devices array already paired
      EVENT_DEVICE_DISCOVER_DONE    Emits when the scan done
@@ -149,7 +149,7 @@ RCT_EXPORT_METHOD(scanDevices:(RCTPromiseResolveBlock)resolve
             }
             [self.foundDevices addEntriesFromDictionary:peripheralStored];
             if(hasListenerx){
-                [self sendEventWithName:EVENT_DEVICE_FOUND body:@{@"device":idAndName}];
+                [self sendEventName:EVENT_DEVICE_FOUND body:@{@"device":idAndName}];
             }
         }
         [self.centralManager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@NO}];
@@ -161,7 +161,7 @@ RCT_EXPORT_METHOD(scanDevices:(RCTPromiseResolveBlock)resolve
             timer = nil;
         }
         timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(callStop) userInfo:nil repeats:NO];
-    
+
     }
     @catch(NSException *exception){
         NSLog(@"ERROR IN STARTING SCANE %@",exception);
@@ -233,7 +233,7 @@ RCT_EXPORT_METHOD(connect:(NSString *)address
         NSData* jsonData = [NSJSONSerialization dataWithJSONObject:devices options:NSJSONWritingPrettyPrinted error:&error];
         NSString * jsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         if(hasListenerx){
-            [self sendEventWithName:EVENT_DEVICE_DISCOVER_DONE body:@{@"found":jsonStr,@"paired":@"[]"}];
+            [self sendEventName:EVENT_DEVICE_DISCOVER_DONE body:@{@"found":jsonStr,@"paired":@"[]"}];
         }
         if(self.scanResolveBlock){
             RCTPromiseResolveBlock rsBlock = self.scanResolveBlock;
@@ -296,7 +296,7 @@ RCT_EXPORT_METHOD(connect:(NSString *)address
     }
     [self.foundDevices addEntriesFromDictionary:peripheralStored];
     if(hasListenerx){
-        [self sendEventWithName:EVENT_DEVICE_FOUND body:@{@"device":idAndName}];
+        [self sendEventName:EVENT_DEVICE_FOUND body:@{@"device":idAndName}];
     }
     if(_waitingConnect && [_waitingConnect isEqualToString: peripheral.identifier.UUIDString]){
         [self.centralManager connectPeripheral:peripheral options:nil];
@@ -319,7 +319,7 @@ RCT_EXPORT_METHOD(connect:(NSString *)address
     }
        NSLog(@"going to emit EVENT_CONNECTED.");
     if(hasListenerx){
-        [self sendEventWithName:EVENT_CONNECTED body:@{@"device":@{@"name":peripheral.name?peripheral.name:@"",@"address":peripheral.identifier.UUIDString}}];
+        [self sendEventName:EVENT_CONNECTED body:@{@"device":@{@"name":peripheral.name?peripheral.name:@"",@"address":peripheral.identifier.UUIDString}}];
     }
 }
 
@@ -334,12 +334,12 @@ RCT_EXPORT_METHOD(connect:(NSString *)address
         }
         connected = nil;
         if(hasListenerx){
-            [self sendEventWithName:EVENT_UNABLE_CONNECT body:@{@"name":peripheral.name?peripheral.name:@"",@"address":peripheral.identifier.UUIDString}];
+            [self sendEventName:EVENT_UNABLE_CONNECT body:@{@"name":peripheral.name?peripheral.name:@"",@"address":peripheral.identifier.UUIDString}];
         }
     }else{
         connected = nil;
         if(hasListenerx){
-            [self sendEventWithName:EVENT_CONNECTION_LOST body:nil];
+            [self sendEventName:EVENT_CONNECTION_LOST body:nil];
         }
     }
 }
@@ -354,7 +354,7 @@ RCT_EXPORT_METHOD(connect:(NSString *)address
     }
     connected = nil;
     if(hasListenerx){
-        [self sendEventWithName:EVENT_UNABLE_CONNECT body:@{@"name":peripheral.name?peripheral.name:@"",@"address":peripheral.identifier.UUIDString}];
+        [self sendEventName:EVENT_UNABLE_CONNECT body:@{@"name":peripheral.name?peripheral.name:@"",@"address":peripheral.identifier.UUIDString}];
     }
     }
 
@@ -383,7 +383,7 @@ RCT_EXPORT_METHOD(connect:(NSString *)address
          NSLog(@"服务id：%@",service.UUID.UUIDString);
     }
     NSLog(@"开始扫描外设服务的特征 %@...",peripheral.name);
-    
+
     if(error && self.connectRejectBlock){
         RCTPromiseRejectBlock rjBlock = self.connectRejectBlock;
          rjBlock(@"",@"",error);
@@ -438,15 +438,15 @@ RCT_EXPORT_METHOD(connect:(NSString *)address
                 }
             }
         }
-        
-        
+
+
     }
-    
+
     if(error){
         NSLog(@"Discrover charactoreristics error:%@",error);
         return;
     }
-    
+
 //    ServiceUUID：49535343-fe7d-4ae5-8fa9-9fafd205e455；
 //    写的是
 //characteristicUUID:49535343-8841-43f4-a8d4-ecbe34729bb3；
@@ -462,8 +462,8 @@ RCT_EXPORT_METHOD(connect:(NSString *)address
 //    };
 //    param = JSON.stringify(param);
 //    uexBluetoothLE.setCharacteristicNotification(param);
-    
-    
+
+
     /** TESTING NSLOG OUTPUT:: ***/
 //    2018-10-01 21:29:24.136033+0800 bluetoothEscposPrinterExamples[8239:4598148] Trying to connect....D7D39238-EF56-71A7-7DCC-D464EFD3BFF1
 //    2018-10-01 21:29:24.302880+0800 bluetoothEscposPrinterExamples[8239:4598148] did connected: <CBPeripheral: 0x1c4302d90, identifier = D7D39238-EF56-71A7-7DCC-D464EFD3BFF1, name = BlueTooth Printer, state = connected>
@@ -500,7 +500,7 @@ RCT_EXPORT_METHOD(connect:(NSString *)address
 //    2018-10-01 21:29:24.433973+0800 bluetoothEscposPrinterExamples[8239:4598148] Notify
 //    2018-10-01 21:29:24.434378+0800 bluetoothEscposPrinterExamples[8239:4598148] Indicate
 //    2018-10-01 21:29:24.434389+0800 bluetoothEscposPrinterExamples[8239:4598148] known properties: 62
-    
+
 //    for(CBCharacteristic *cc in service.characteristics){
 //       // NSLog(@"Characterstic found: %@ in service: %@" ,cc,service.UUID.UUIDString);
 //        CBCharacteristicProperties pro = cc.properties;
@@ -561,11 +561,11 @@ RCT_EXPORT_METHOD(connect:(NSString *)address
             [writeDataDelegate didWriteDataToBle:false];
         }
     }
-    
+
     NSLog(@"Write bluetooth success.");
     if(writeDataDelegate){
         [writeDataDelegate didWriteDataToBle:true];
     }
 }
- 
+
 @end
