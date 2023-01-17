@@ -142,7 +142,7 @@ RCT_EXPORT_METHOD(scanDevices:(RCTPromiseResolveBlock)resolve
         self.scanResolveBlock = resolve;
         self.scanRejectBlock = reject;
         if(connected && connected.identifier){
-            NSDictionary *idAndName =@{@"address":connected.identifier.UUIDString,@"name":connected.name || @"",@"RSSI":connected.readRSSI,@"ServicesUUIDs":connected.services};
+            NSDictionary *idAndName =@{@"address":connected.identifier.UUIDString,@"name":connected.name?connected.name:@""};
             NSDictionary *peripheralStored = @{connected.identifier.UUIDString:connected};
             if(!self.foundDevices){
                 self.foundDevices = [[NSMutableDictionary alloc] init];
@@ -289,7 +289,7 @@ RCT_EXPORT_METHOD(connect:(NSString *)address
 
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *, id> *)advertisementData RSSI:(NSNumber *)RSSI{
     NSLog(@"did discover peripheral: %@",peripheral);
-    NSDictionary *idAndName =@{@"address":peripheral.identifier.UUIDString,@"name":peripheral.name||@"",@"RSSI":peripheral.readRSSI,@"ServiceUUIDs":peripheral.services};
+    NSDictionary *idAndName =@{@"address":peripheral.identifier.UUIDString,@"name":peripheral.name?peripheral.name:@""};
     NSDictionary *peripheralStored = @{peripheral.identifier.UUIDString:peripheral};
     if(!self.foundDevices){
         self.foundDevices = [[NSMutableDictionary alloc] init];
