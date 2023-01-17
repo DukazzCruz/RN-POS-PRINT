@@ -9,6 +9,7 @@
 #import <React/RCTEventEmitter.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
+
 @protocol WriteDataToBleDelegate <NSObject>
 @required
 - (void) didWriteDataToBle: (BOOL)success;

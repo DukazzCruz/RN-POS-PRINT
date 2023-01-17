@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "RNBluetoothManager.h"
 #import <CoreBluetooth/CoreBluetooth.h>
+
 @implementation RNBluetoothManager
 
 NSString *EVENT_DEVICE_ALREADY_PAIRED = @"EVENT_DEVICE_ALREADY_PAIRED";
@@ -294,6 +295,8 @@ RCT_EXPORT_METHOD(connect:(NSString *)address
 
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *, id> *)advertisementData RSSI:(NSNumber *)RSSI{
     NSLog(@"did discover peripheral: %@",peripheral);
+    [peripheral discoverServices:nil];
+
     NSDictionary *idAndName = @{@"address":peripheral.identifier.UUIDString,
                                 @"name":peripheral.name?peripheral.name:@"",
                                 @"RSSI":RSSI?:@"-5",
@@ -383,7 +386,7 @@ RCT_EXPORT_METHOD(connect:(NSString *)address
  */
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(nullable NSError *)error{
     if (error){
-        NSLog(@"扫描外设服务出错：%@-> %@", peripheral.name, [error localizedDescription]);
+        NSLog(@"Error discovering services: %@", [error localizedDescription]);
         return;
     }
     NSLog(@"扫描到外设服务：%@ -> %@",peripheral.name,peripheral.services);
