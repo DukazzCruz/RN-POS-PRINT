@@ -1,6 +1,6 @@
 {
   "name": "@dukazzcruz/rn-pos-print",
-  "version": "1.0.8",
+  "version": "1.0.10",
   "description": "React-Native plugin for the bluetooth ESC/POS & TSC printers.",
   "main": "index.js",
   "directories": {
