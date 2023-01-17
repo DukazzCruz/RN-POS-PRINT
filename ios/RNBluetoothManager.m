@@ -144,8 +144,8 @@ RCT_EXPORT_METHOD(scanDevices:(RCTPromiseResolveBlock)resolve
         if(connected && connected.identifier){
 
             NSDictionary *idAndName = @{@"address":connected.identifier.UUIDString,
-                                        @"name":connected.name?connected.name:@"",
-                                        @"RSSI":connected.readRSSI,
+                                        @"name":connected.name?:@"",
+                                        @"RSSI":connected.RSSI,
                                         @"ServicesUUIDs":connected.services};
 
             NSDictionary *peripheralStored = @{connected.identifier.UUIDString:connected};

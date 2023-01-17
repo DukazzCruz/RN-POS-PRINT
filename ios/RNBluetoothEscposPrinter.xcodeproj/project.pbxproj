@@ -92,7 +92,7 @@
 		83B72B7B216A70D1007780F3 /* ImageUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUtils.m; sourceTree = "<group>"; };
 		83E5D464215E51A20009D216 /* ZXingObjC.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingObjC.xcodeproj; path = "ZXingObjC-3.2.2/ZXingObjC.xcodeproj"; sourceTree = "<group>"; };
 		83E5D47A215E564B0009D216 /* RNBluetoothManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNBluetoothManager.h; sourceTree = "<group>"; };
-		83E5D47B215E57100009D216 /* RNBluetoothManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNBluetoothManager.m; sourceTree = "<group>"; };
+		83E5D47B215E57100009D216 /* RNBluetoothManager.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc.preprocessed; path = RNBluetoothManager.m; sourceTree = "<group>"; };
 		83E5D47E215E5A880009D216 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		83FAD6A92161C977001C4911 /* RNBluetoothTscPrinter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNBluetoothTscPrinter.h; sourceTree = "<group>"; };
 		83FAD6B02161C9C6001C4911 /* RNBluetoothTscPrinter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNBluetoothTscPrinter.m; sourceTree = "<group>"; };
