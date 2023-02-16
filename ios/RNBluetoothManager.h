@@ -15,16 +15,22 @@
 - (void) didWriteDataToBle: (BOOL)success;
 @end
 
-@interface RNBluetoothManager <CBCentralManagerDelegate,CBPeripheralDelegate> : RCTEventEmitter <RCTBridgeModule>
-@property (strong, nonatomic) CBCentralManager      *centralManager;
-@property (nonatomic,copy) RCTPromiseResolveBlock scanResolveBlock;
-@property (nonatomic,copy) RCTPromiseRejectBlock scanRejectBlock;
-@property (strong,nonatomic) NSMutableDictionary <NSString *,CBPeripheral *> *foundDevices;
-@property (strong,nonatomic) NSString *waitingConnect;
-@property (nonatomic,copy) RCTPromiseResolveBlock connectResolveBlock;
-@property (nonatomic,copy) RCTPromiseRejectBlock connectRejectBlock;
-+(void)writeValue:(NSData *) data withDelegate:(NSObject<WriteDataToBleDelegate> *) delegate;
-+(Boolean)isConnected;
--(void)initSupportServices;
--(void)callStop;
+
+@interface RNBluetoothManager : RCTEventEmitter <RCTBridgeModule, CBCentralManagerDelegate, CBPeripheralDelegate>
+@property (strong, nonatomic) CBCentralManager *centralManager;
+@property (nonatomic, copy) RCTPromiseResolveBlock scanResolveBlock;
+@property (nonatomic, copy) RCTPromiseRejectBlock scanRejectBlock;
+@property (strong, nonatomic) NSMutableDictionary <NSString *, CBPeripheral *> *foundDevices;
+@property (strong, nonatomic) NSString *waitingConnect;
+@property (nonatomic, copy) RCTPromiseResolveBlock connectResolveBlock;
+@property (nonatomic, copy) RCTPromiseRejectBlock connectRejectBlock;
+
+
++ (void)writeValue:(NSData *)data withDelegate:(NSObject<WriteDataToBleDelegate> *)delegate;
++ (Boolean)isConnected;
+
+
+- (void)initSupportServices;
+- (void)callStop;
 @end
+
