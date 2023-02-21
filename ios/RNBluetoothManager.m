@@ -117,10 +117,13 @@ RCT_EXPORT_METHOD(isBluetoothEnabled:(RCTPromiseResolveBlock)resolve
 }
 
 //enableBluetooth
-RCT_EXPORT_METHOD(enableBluetooth:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(enableBluetooth)
 {
-    resolve(nil);
+  CBCentralManager *centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+  if (centralManager.state == CBManagerStatePoweredOff) {
+    NSURL *url = [NSURL URLWithString:@"App-Prefs:root=Bluetooth"];
+    [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
+  }
 }
 //disableBluetooth
 RCT_EXPORT_METHOD(disableBluetooth:(RCTPromiseResolveBlock)resolve
