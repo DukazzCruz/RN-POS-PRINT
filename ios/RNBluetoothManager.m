@@ -116,14 +116,23 @@ RCT_EXPORT_METHOD(isBluetoothEnabled:(RCTPromiseResolveBlock)resolve
     resolve(state == CBManagerStatePoweredOn?@"true":@"false");//canot pass boolean or int value to resolve directly.
 }
 
-//enableBluetooth
-RCT_EXPORT_METHOD(enableBluetooth)
+
+
+RCT_EXPORT_METHOD(checkBluetoothPermission:(RCTResponseSenderBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
-  CBCentralManager *centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-  if (centralManager.state == CBManagerStatePoweredOff) {
-    NSURL *url = [NSURL URLWithString:@"App-Prefs:root=Bluetooth"];
-    [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
-  }
+  CBPeripheralManagerAuthorizationStatus status = [CBPeripheralManager authorizationStatus];
+  BOOL isPermissionGranted = (status == CBPeripheralManagerAuthorizationStatusAuthorized) ||
+                             (status == CBPeripheralManagerAuthorizationStatusNotDetermined);
+  resolve(@[@(isPermissionGranted)]);
+}
+
+
+//enableBluetooth
+RCT_EXPORT_METHOD(enableBluetooth:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+    resolve(nil);
 }
 //disableBluetooth
 RCT_EXPORT_METHOD(disableBluetooth:(RCTPromiseResolveBlock)resolve
